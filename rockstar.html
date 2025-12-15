@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Launch Countdown</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #0f1225;
+      font-family: Arial, sans-serif;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.08);
+      padding: 35px 45px;
+      border-radius: 20px;
+      text-align: center;
+      width: 90%;
+      max-width: 720px;
+    }
+
+    h3 {
+      margin-bottom: 20px;
+      font-size: 18px;
+      letter-spacing: 2px;
+      opacity: 0.9;
+    }
+
+    input {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .timer {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+    }
+
+    .box {
+      background: rgba(0,0,0,0.4);
+      padding: 25px 10px;
+      border-radius: 14px;
+    }
+
+    .number {
+      font-size: 42px;
+      font-weight: bold;
+      color: #4fc3f7;
+    }
+
+    .label {
+      font-size: 12px;
+      opacity: 0.8;
+      letter-spacing: 1px;
+      margin-top: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h3>WE'RE LAUNCHING SOON</h3>
+
+    <input type="datetime-local" onchange="startCountdown(this)">
+
+    <div class="timer" id="timer">
+      <div class="box">
+        <div class="number">00</div>
+        <div class="label">DAYS</div>
+      </div>
+      <div class="box">
+        <div class="number">00</div>
+        <div class="label">HOURS</div>
+      </div>
+      <div class="box">
+        <div class="number">00</div>
+        <div class="label">MINUTES</div>
+      </div>
+      <div class="box">
+        <div class="number">00</div>
+        <div class="label">SECONDS</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let countdown;
+
+    function startCountdown(input) {
+      const selectedDate = input.value;
+      if (!selectedDate) return;
+
+      const targetDate = new Date(selectedDate).getTime();
+      clearInterval(countdown);
+
+      const numbers = document.querySelectorAll(".number");
+
+      countdown = setInterval(() => {
+        const now = new Date().getTime();
+        const difference = targetDate - now;
+
+        numbers[0].innerText = Math.floor(difference / (1000 * 60 * 60 * 24));
+        numbers[1].innerText = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        numbers[2].innerText = Math.floor((difference / (1000 * 60)) % 60);
+        numbers[3].innerText = Math.floor((difference / 1000) % 60);
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
